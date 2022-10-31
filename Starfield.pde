@@ -26,7 +26,7 @@ class Particle
     lessCol = 0;
     angle = (float)(Math.random() * 2) * Math.PI;
     speed = (Math.random() * 7);
-    myColor = (int)(Math.random() * 50) + 200;
+    myColor = (int)(Math.random() * 250);
   }
   void move() {
     myX += Math.cos((float)(angle)) * speed;
@@ -35,8 +35,8 @@ class Particle
   }
   void show() {
    noStroke();
-   fill(color(myColor - lessCol, 250 - lessCol, 50 + lessCol));
-   lessCol += 5;
+   fill(color(myColor - lessCol, 250 - lessCol, (int)(Math.random() * 250) - lessCol));
+   lessCol += (int)(Math.random() * 4) + 2;
    rect((float)myX, (float)myY, 2, 10);
   }
 }
@@ -47,8 +47,8 @@ class OddballParticle extends Particle //inherits from Particle
     speed = (Math.random() * 18);
     } 
   void move() {
-    myX += Math.cos((float)(angle)) * speed * 1.2;
-    myY += Math.sin((float)(angle)) * speed * 1.2;
+    myX += Math.cos((float)(angle)) * speed * 1.5;
+    myY += Math.sin((float)(angle)) * speed * 1.5;
   }
   void show() {
    fill(myColor);
