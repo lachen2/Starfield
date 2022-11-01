@@ -1,8 +1,9 @@
-Particle[] iru = new Particle[900];
+Particle[] iru = new Particle[1500];
 void setup()
 {
-  size(400, 400);
-  background(255, 216, 140);
+  size(500, 500);
+  //background to blueish color
+  background((int)(Math.random() * 40) + 155, 196, 230);
   for (int i = 20; i < iru.length; i ++)
     iru[i] = new Particle();
   for (int i = 0; i < 20; i ++)
@@ -12,54 +13,67 @@ void setup()
 void draw()
 {
   for (int i = 0; i < iru.length; i ++) {
+    //draw firework
     iru[i].show();
     iru[i].move();
 }
 }
 class Particle
 {
-  double myX, myY, speed, angle;
+  //declare member var
+  double myX, myY, speed, angle, myOpacity;
   int myColor, lessCol;
   Particle() {
+    //where the mouse is clicked is where the firework appears
     myX = mouseX;
     myY = mouseY;
     lessCol = 0;
     angle = (float)(Math.random() * 2) * Math.PI;
     speed = (Math.random() * 7);
-    myColor = (int)(Math.random() * 250);
+    myColor = (int)(Math.random() * 200) + 50;
+    myOpacity = (Math.random() * 130) + 40;
   }
   void move() {
+    //fireworks moves outwards in all direction
     myX += Math.cos((float)(angle)) * speed;
     myY += Math.sin((float)(angle)) * speed;
     speed += Math.random();
   }
   void show() {
+    //show firework
    noStroke();
-   fill(color(myColor - lessCol, 250 - lessCol, (int)(Math.random() * 250) - lessCol));
-   lessCol += (int)(Math.random() * 4) + 2;
+   fill(color(myColor - lessCol, 100 - lessCol, myColor - lessCol), (float)myOpacity);
+   lessCol += (int)(Math.random() * 6) + 3;
+   myOpacity -= (lessCol / ((Math.random() * 10) + 70));
    rect((float)myX, (float)myY, 2, 10);
   }
 }
 class OddballParticle extends Particle //inherits from Particle
 {
   OddballParticle() {
+    //set greenish black color
     myColor = color((int)(Math.random() * 50), (int)(Math.random() * 200), (int)(Math.random() * 10));
     speed = (Math.random() * 18);
     } 
   void move() {
-    myX += Math.cos((float)(angle)) * speed * 1.5;
-    myY += Math.sin((float)(angle)) * speed * 1.5;
+    //move ellipses outward
+    myX += Math.cos((float)(angle)) * speed * 1.8;
+    myY += Math.sin((float)(angle)) * speed * 1.8;
   }
   void show() {
-   fill(myColor);
+   //show greenish black ovals
+   fill(myColor, (float)myOpacity);
    ellipse((float)myX, (float)myY, 3, 5);
   }
 }
 
-void mousePressed() {
+void mouseDragged() {
+  //when mouse is dragged, draw another firework
+  fill(255);
   for (int i = 100; i < iru.length; i ++)
     iru[i] = new Particle();
-  for (int i = 0; i < 100; i ++)
+  for (int i = 0; i < 100; i ++) {
     iru[i] = new OddballParticle();
+  }
   redraw();
 }
