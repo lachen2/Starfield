@@ -4,11 +4,10 @@ void setup()
   size(500, 500);
   //background to blueish color
   background((int)(Math.random() * 40) + 155, 196, 230);
-  for (int i = 20; i < iru.length; i ++)
+  for (int i = 0; i < iru.length - 285; i ++)
     iru[i] = new Particle();
-  for (int i = 0; i < 20; i ++)
+  for (int i = iru.length - 285; i < iru.length; i ++)
     iru[i] = new OddballParticle();
-//frameRate(3);
 }
 void draw()
 {
@@ -30,8 +29,8 @@ class Particle
     lessCol = 0;
     angle = (float)(Math.random() * 2) * Math.PI;
     speed = (Math.random() * 7);
-    myColor = (int)(Math.random() * 200) + 50;
-    myOpacity = (Math.random() * 130) + 40;
+    myColor = (int)(Math.random() * 250);
+    myOpacity = (Math.random() * 10) + 250;
   }
   void move() {
     //fireworks moves outwards in all direction
@@ -42,18 +41,24 @@ class Particle
   void show() {
     //show firework
    noStroke();
+   if (myOpacity > 150) 
+     myOpacity -= 5;// / (int)((Math.random() * 15)+ 50);
+   else if (myOpacity > 100)
+     myOpacity -= 15;
+   else
+     myOpacity = 0;
    fill(color(myColor - lessCol, 100 - lessCol, myColor - lessCol), (float)myOpacity);
    lessCol += (int)(Math.random() * 6) + 3;
-   myOpacity -= (lessCol / ((Math.random() * 10) + 70));
    rect((float)myX, (float)myY, 2, 10);
   }
 }
 class OddballParticle extends Particle //inherits from Particle
 {
   OddballParticle() {
-    //set greenish black color
+    //set greenish black color, speed, and opacity
     myColor = color((int)(Math.random() * 50), (int)(Math.random() * 200), (int)(Math.random() * 10));
     speed = (Math.random() * 18);
+    myOpacity = 230;
     } 
   void move() {
     //move ellipses outward
@@ -61,15 +66,22 @@ class OddballParticle extends Particle //inherits from Particle
     myY += Math.sin((float)(angle)) * speed * 1.8;
   }
   void show() {
-   //show greenish black ovals
+   //decrease opacity
+   if (myOpacity > 200) 
+     myOpacity -= 4;
+   else if (myOpacity > 100)
+     myOpacity -= 15;
+   else
+     myOpacity = 0;
+   //show greenish ovals
    fill(myColor, (float)myOpacity);
+   noStroke();
    ellipse((float)myX, (float)myY, 3, 5);
   }
 }
 
 void mouseDragged() {
   //when mouse is dragged, draw another firework
-  fill(255);
   for (int i = 100; i < iru.length; i ++)
     iru[i] = new Particle();
   for (int i = 0; i < 100; i ++) {
